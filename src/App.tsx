@@ -2,7 +2,7 @@ import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import { createTheme, CssBaseline, MuiThemeProvider } from '@material-ui/core';
 import 'react-toastify/dist/ReactToastify.css';
-import { useQuery, useSubscription } from '@apollo/client';
+import { useSubscription } from '@apollo/client';
 import Header from './components/Header';
 import Wrapper from './components/Wrapper';
 import DropDownList from './components/DropDownMenu';
@@ -39,43 +39,7 @@ function GetData(QUERY: any) {
   return null;
 }
 
-type DataResponse = {
-  data: any;
-  loading: any;
-  error: any;
-};
-
-function GetPrevData(SecondQUERY: any) {
-  const halfBefore = () => new Date().getTime() - 10 * 60 * 1000;
-  const time = halfBefore();
-
-  const metricNames = ['oilTemp', 'waterTemp', 'injValveOpen', 'flareTemp', 'tubingPressure', 'casingPressure'];
-  // console.log('Fetching Previous Data');
-  const { data, error, loading } = useQuery<DataResponse>(SecondQUERY, {
-    variables: {
-      input: metricNames.map((input) => ({
-        metricName: input,
-        after: time,
-      })),
-    },
-  });
-  if (error) {
-    console.log(error.message);
-    return null;
-  }
-  if (loading) {
-    console.log('loading');
-    return null;
-  }
-  if (data) {
-    // Store.store.dispatch(Action.setData(data.newMeasurement));
-    console.log(data);
-  }
-  return null;
-}
-
 function App() {
-  GetPrevData(Queries.GET_ALL_DATA_QUERY);
   GetData(Queries.SUBSCRIBE_QUERY);
 
   return (

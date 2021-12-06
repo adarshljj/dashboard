@@ -3,6 +3,36 @@ import { ApolloClient, ApolloProvider, useQuery, gql, InMemoryCache } from '@apo
 import { LinearProgress, Typography } from '@material-ui/core';
 import { useGeolocation } from 'react-use';
 import Chip from '../../components/Chip';
+import * as Queries from '../../components/GQLSubscriber';
+
+function GetPrevData(SecondQUERY: any) {
+  const halfBefore = () => new Date().getTime() - 10 * 60 * 1000;
+  const time = halfBefore();
+
+  const metricNames = ['oilTemp', 'waterTemp', 'injValveOpen', 'flareTemp', 'tubingPressure', 'casingPressure'];
+  // console.log('Fetching Previous Data');
+  const { data, error, loading } = useQuery<DataResponse>(SecondQUERY, {
+    variables: {
+      input: metricNames.map((input) => ({
+        metricName: input,
+        after: time,
+      })),
+    },
+  });
+  if (error) {
+    console.log(error.message);
+    return null;
+  }
+  if (loading) {
+    console.log('loading');
+    return null;
+  }
+  if (data) {
+    // Store.store.dispatch(Action.setData(data.newMeasurement));
+    console.log(data);
+  }
+  return null;
+}
 
 const client = new ApolloClient({
   uri: 'https://react.eogresources.com/graphql',
@@ -20,6 +50,11 @@ const query = gql`
     }
   }
 `;
+type DataResponse = {
+  data: any;
+  loading: any;
+  error: any;
+};
 
 type WeatherData = {
   temperatureinCelsius: number;
@@ -31,6 +66,7 @@ type WeatherDataResponse = {
 };
 
 const Weather: FC = () => {
+  GetPrevData(Queries.GET_ALL_DATA_QUERY);
   const getLocation = useGeolocation();
   // Default to houston
   const latLong = {
