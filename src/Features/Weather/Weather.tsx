@@ -1,14 +1,7 @@
 import React, { FC } from 'react';
-import {
-  ApolloClient,
-  ApolloProvider,
-  useQuery,
-  gql,
-  InMemoryCache,
-} from '@apollo/client';
+import { ApolloClient, ApolloProvider, useQuery, gql, InMemoryCache } from '@apollo/client';
+import { LinearProgress, Typography } from '@material-ui/core';
 import { useGeolocation } from 'react-use';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import { Typography } from '@material-ui/core';
 import Chip from '../../components/Chip';
 
 const client = new ApolloClient({
