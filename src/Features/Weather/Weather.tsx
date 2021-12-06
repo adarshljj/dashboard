@@ -34,8 +34,8 @@ const Weather: FC = () => {
   const getLocation = useGeolocation();
   // Default to houston
   const latLong = {
-    latitude: getLocation.latitude || 29.7604,
-    longitude: getLocation.longitude || -95.3698,
+    latitude: getLocation.latitude || 41.881832,
+    longitude: getLocation.longitude || -87.623177,
   };
   const { loading, error, data } = useQuery<WeatherDataResponse>(query, {
     variables: {
