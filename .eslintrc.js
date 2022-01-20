@@ -26,6 +26,7 @@ module.exports = {
       version: '17',
     },
   },
+  "linebreak-style": 0,
   plugins: ['react'],
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx', '.tsx'] }],
